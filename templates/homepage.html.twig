@@ -6,10 +6,12 @@
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-<h1>{{ title }}</h1>
-<p>{{ text }}</p>
-<p>{{ date }}</p>
-<a href="">{{ tags }}</a>
+{% for post in posts %}
+<h1>{{ post.title }}</h1>
+<p>{{ post.text }}</p>
+<p>{{ post.datePublished|date("m/d/Y")  }}</p>
+    <a href="{{ '/posts/' ~ post.slug }}">Details</a>
+{% endfor %}
 {% block body %}{% endblock %}
 {% block javascripts %}{% endblock %}
 </body>

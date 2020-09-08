@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Post!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.text }}</p>
+    <p>{{ post.datePublished|date("m/d/Y")  }}</p>
+{% block body %}{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
+</html>
