@@ -106,4 +106,12 @@ class Post
 
         return $this;
     }
+
+    //Function that takes the old view count, and increases it by 1
+    public function updateViewCount(): self{
+        $currentAmountOfViews = $this->getCounter();
+        $this->setCounter($currentAmountOfViews + 1);
+
+        return $this;
+    }
 }

@@ -28,7 +28,10 @@ class PostsController extends AbstractController
      * @Route ("/posts/{slug}", name="app_post")
      */
     public function showPost($slug){
+        $entityManager = $this->getDoctrine()->getManager();
         $post = $this->getDoctrine()->getRepository(Post::class)->findOneBySlug($slug);
+        $post->updateViewCount();
+        $entityManager->flush();
         return $this->render('post.html.twig', ['post' => $post]);
     }
 

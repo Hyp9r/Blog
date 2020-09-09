@@ -40,29 +40,17 @@ class PostsController extends AbstractController
      * @Route ("/api/post/{slug}", name="api_post_by_slug")
      */
     public function getPost($slug){
+        $entityManager = $this->getDoctrine()->getManager();
         $post = $this->getDoctrine()->getRepository(Post::class)->findOneBySlug($slug);
         if(!$post){
             throw  $this->createNotFoundException("Post not found");
         }
 
-        $this->updateViewCount($post->getId());
+        $post->updateViewCount();
+        $entityManager->flush();
 
         $response = array('id' => $post->getId(), 'title' => $post->getTitle(), 'text' => $post->getText(), 'date_published' => $post->getDatePublished(), 'slug' => $post->getSlug(), 'counter' => $post->getCounter());
         return new JsonResponse($response);
-    }
-
-    private function updateViewCount($id){
-        $entityManager = $this->getDoctrine()->getManager();
-        $post = $entityManager->getRepository(Post::class)->find($id);
-
-        if(!$post){
-            throw $this->createNotFoundException("Post not found");
-        }
-
-        $currentAmountOfViews = $post->getCounter();
-        $post->setCounter($currentAmountOfViews + 1);
-
-        $entityManager->flush();
     }
 
 }
