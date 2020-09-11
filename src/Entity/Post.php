@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,7 +32,7 @@ class Post
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_published;
+    private $datePublished;
 
     /**
      * @ORM\Column(type="text")
@@ -41,6 +43,23 @@ class Post
      * @ORM\Column(type="integer")
      */
     private $counter;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="posts")
+     * @ORM\JoinTable(name="post_tag")
+     */
+    private $tags;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Admin")
+     * @ORM\JoinColumn(name="admin_id", referencedColumnName="id")
+     */
+    private $admin;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -71,14 +90,21 @@ class Post
         return $this;
     }
 
-    public function getDatePublished(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getDatePublished()
     {
-        return $this->date_published;
+        return $this->datePublished;
     }
 
-    public function setDatePublished(\DateTimeInterface $date_published): self
+    /**
+     * @param mixed $datePublished
+     * @return Post
+     */
+    public function setDatePublished($datePublished)
     {
-        $this->date_published = $date_published;
+        $this->datePublished = $datePublished;
 
         return $this;
     }
@@ -107,11 +133,44 @@ class Post
         return $this;
     }
 
-    //Function that takes the old view count, and increases it by 1
-    public function updateViewCount(): self{
-        $currentAmountOfViews = $this->getCounter();
-        $this->setCounter($currentAmountOfViews + 1);
+    /**
+     * @return Collection
+     */
+    public function getTags(): Collection
+    {
+
+        return $this->tags;
+    }
+
+    /**
+     * @param ArrayCollection $tags
+     * @return Post
+     */
+    public function setTags(ArrayCollection $tags): Post
+    {
+        $this->tags = $tags;
 
         return $this;
+    }
+
+    public function addTag(Tag $tag)
+    {
+        $this->tags[] = $tag;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * @param mixed $admin
+     */
+    public function setAdmin($admin): void
+    {
+        $this->admin = $admin;
     }
 }

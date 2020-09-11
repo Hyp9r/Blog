@@ -48,6 +48,17 @@ class PostRepository extends ServiceEntityRepository
     }
     */
 
+    public function incrementViewCount(Post $post)
+    {
+        return $this->createQueryBuilder('p')
+            ->update($this->getEntityName(), 'p')
+            ->set('p.counter', $post->getCounter() + 1)
+            ->where('p.id = :id')
+            ->setParameter('id', $post->getId())
+            ->getQuery()
+            ->execute();
+    }
+
     public function findOneBySlug($slug): Post{
         return $this->createQueryBuilder('post')->select('post')
             ->where('post.slug = :slug')->setParameter('slug', $slug)->getQuery()->getSingleResult();

@@ -3,12 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Post!{% endblock %}</title>
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="{{ asset('dist/modules/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/modules/@fortawesome/fontawesome-free/css/all.min.css') }}">
+
+    <!-- Plugins -->
+    <link rel="stylesheet" href="{{ asset('dist/modules/bootstrap-social/bootstrap-social.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/css/components.css') }}">
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
     <h1>{{ post.title }}</h1>
     <p>{{ post.text }}</p>
     <p>{{ post.datePublished|date("m/d/Y")  }}</p>
+    {% for tag in tags %}
+        {% if tag.id == 1 %}
+            <a href="#" class="badge badge-success">{{ tag.title }}</a>
+        {% elseif tag.id == 2 %}
+            <a href="#" class="badge badge-primary">{{ tag.title }}</a>
+        {% elseif tag.id == 3 %}
+            <a href="#" class="badge badge-info">{{ tag.title }}</a>
+        {% elseif tag.id == 4 %}
+            <a href="#" class="badge badge-dark">{{ tag.title }}</a>
+        {% elseif tag.id == 5 %}
+            <a href="#" class="badge badge-danger">{{ tag.title }}</a>
+        {% elseif tag.id == 6 %}
+            <a href="#" class="badge badge-warning">{{ tag.title }}</a>
+        {% endif %}
+    {% endfor %}
 {% block body %}{% endblock %}
 {% block javascripts %}{% endblock %}
 </body>
