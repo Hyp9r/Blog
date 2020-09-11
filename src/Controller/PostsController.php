@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Repository\PostRepository;
 use App\Repository\TagRepository;
 use App\Service\PostService;
-use http\Env\Request;
+use ContainerRTFgIzf\getKnpPaginatorService;
 use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PostsController extends AbstractController
@@ -29,27 +32,30 @@ class PostsController extends AbstractController
 
     /**
      * @Route("/", name="app_homepage")
+     * @param PostRepository $repository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
      */
-    public function homepage(Request $request)
+    public function homepage(PostRepository $repository, Request $request, PaginatorInterface $paginator)
     {
-        //Get all posts from DB
-        $posts = $this->getDoctrine()->getRepository(Post::class)->findAll();
-        if (!$posts) {
-            throw $this->createNotFoundException("No posts found");
-            //throw new NotFoundHttpException('No posts found');
-        };
+//        //Get all posts from DB
+//        $posts = $this->getDoctrine()->getRepository(Post::class)->findAll();
+//        if (!$posts) {
+//            throw $this->createNotFoundException("No posts found");
+//            //throw new NotFoundHttpException('No posts found');
+//        };
 
         /**
          * @var $paginator Paginator
          */
-        $paginator = $this->get('knp_paginator');
-        $paginator->paginate(
-            $posts,
-            $request->posts->getInt('page', 1),
-            $request->posts->getInt('limit', 2)
+        $pagination = $paginator->paginate(
+            $repository->findAllFromLatestDate(),
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 2)
         );
 
-        return $this->render('homepage.html.twig', ['posts' => $posts]);
+        return $this->render('homepage.html.twig', ['posts' => $pagination]);
     }
 
     /**

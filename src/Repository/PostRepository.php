@@ -59,6 +59,10 @@ class PostRepository extends ServiceEntityRepository
             ->execute();
     }
 
+    public function findAllFromLatestDate(){
+        return $this->createQueryBuilder('post')->select('post')->orderBy('post.datePublished', 'DESC')->getQuery()->getResult();
+    }
+
     public function findOneBySlug($slug): Post{
         return $this->createQueryBuilder('post')->select('post')
             ->where('post.slug = :slug')->setParameter('slug', $slug)->getQuery()->getSingleResult();
