@@ -39,7 +39,7 @@ class PostsController extends AbstractController
     }
 
     /**
-     * @Route ("/test/{slug}", name="post_by_slug_test")
+     * @Route ("/test/{slug}", name="_by_slug_test")
      * @ParamConverter("post", class="App\Entity\Post")
      */
     public function getBySlugTest(Post $post)
@@ -48,7 +48,7 @@ class PostsController extends AbstractController
     }
 
     /**
-     * @Route ("/{slug}", name="post_by_slug")
+     * @Route ("/{slug}", name="_by_slug")
      * @param string $slug
      * @return JsonResponse
      */

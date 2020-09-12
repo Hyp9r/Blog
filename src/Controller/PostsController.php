@@ -39,13 +39,6 @@ class PostsController extends AbstractController
      */
     public function homepage(PostRepository $repository, Request $request, PaginatorInterface $paginator)
     {
-//        //Get all posts from DB
-//        $posts = $this->getDoctrine()->getRepository(Post::class)->findAll();
-//        if (!$posts) {
-//            throw $this->createNotFoundException("No posts found");
-//            //throw new NotFoundHttpException('No posts found');
-//        };
-
         /**
          * @var $paginator Paginator
          */
@@ -55,7 +48,9 @@ class PostsController extends AbstractController
             $request->query->getInt('limit', 2)
         );
 
-        return $this->render('homepage.html.twig', ['posts' => $pagination]);
+        $user = null;
+
+        return $this->render('homepage.html.twig', ['posts' => $pagination, 'user' => $user]);
     }
 
     /**
