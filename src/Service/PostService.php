@@ -56,4 +56,21 @@ class  PostService
         $this->entityManager->persist($post);
         $this->entityManager->flush();
     }
+
+    public function getPosts(){
+        return $this->postRepository->findAllFromLatestDate();
+    }
+
+    public function disablePost(int $id){
+        $post = $this->postRepository->find($id);
+        $post->setVisible(false);
+        $this->entityManager->flush();
+    }
+
+    public function enablePost(int $id){
+        $post = $this->postRepository->find($id);
+        $post->setVisible(true);
+        $this->entityManager->flush();
+    }
+
 }

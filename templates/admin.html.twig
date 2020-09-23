@@ -24,14 +24,14 @@
         <div class="navbar-bg"></div>
         <nav class="navbar navbar-expand-lg main-navbar">
             <form class="form-inline mr-auto">
-{#                 <ul class="navbar-nav mr-3">#}
-{#                    <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>#}
-{#                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>#}
-{#                </ul>#}
-{#                <div class="search-element">#}
-{#                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">#}
-{#                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>#}
-{#                </div>#}
+                {#                 <ul class="navbar-nav mr-3">#}
+                {#                    <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>#}
+                {#                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>#}
+                {#                </ul>#}
+                {#                <div class="search-element">#}
+                {#                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">#}
+                {#                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>#}
+                {#                </div>#}
             </form>
             {% if is_granted('ROLE_ADMIN') %}
                 <ul class="navbar-nav navbar-left">
@@ -90,7 +90,7 @@
                     </div>
                 </li>
                 {% if app.user %}
-{#                    User is logged in show details about user, etc...#}
+                    {#                    User is logged in show details about user, etc...#}
                     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                             <img alt="image" src="../dist/img/avatar/avatar-1.png" width="30" class="rounded-circle mr-1">
                             <div class="d-sm-none d-lg-inline-block">{{ app.user.displayName }}</div></a>
@@ -112,7 +112,7 @@
                         </div>
                     </li>
                 {% else %}
-{#                    If user is not logged in show login button that redirects you to login page#}
+                    {#                    If user is not logged in show login button that redirects you to login page#}
                     <li>
                         <a class="btn btn-success" href="/login" role="button">Login</a>
                     </li>
@@ -141,19 +141,7 @@
                                 <p>{{ 'Created by ' ~ post.user.displayName }}</p>
                             </div>
                             <div class="card-footer bg-whitesmoke">
-                                <a class="btn btn-outline-info" href="{{ '/posts/' ~ post.slug }}" role="button">Details</a>
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    {% if post.visible %}
-                                        <a class="btn btn-warning" href="{{ '/disable-post/' ~ post.id }}" role="button">Disable post</a>
-                                    {% else %}
-                                        <a class="btn btn-success" href="{{ '/enable-post/' ~ post.id }}" role="button">Enable post</a>
-                                    {% endif %}
-
-                                    <a class="btn btn-danger" href="{{ 'delete-post/' ~ post.id }}" role="button">Delete post</a>
-
-                                    <p>{{ 'View count: ' ~ post.counter }}</p>
-
-                                {% endif %}
+                                <a href="{{ '/posts/' ~ post.slug }}">Details</a>
                             </div>
                         </div>
                     {% endfor %}

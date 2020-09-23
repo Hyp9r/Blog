@@ -10,7 +10,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class AdminService
+class UserService
 {
     /**
      * @var UserPasswordEncoderInterface
@@ -51,15 +51,15 @@ class AdminService
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function createAdmin($data)
+    public function createUser($data)
     {
-        $admin = new User();
-        $admin->setUsername($data['username']);
-        $admin->setPassword($this->passwordEncoder->encodePassword($admin, $data['password']));
-        $admin->setDisplayName($data['displayName']);
-        $admin->setRoles(['ROLE_ADMIN']);
+        $user = new User();
+        $user->setUsername($data['username']);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $data['password']));
+        $user->setDisplayName($data['displayName']);
 
-        $this->entityManager->persist($admin);
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
+
 }

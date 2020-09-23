@@ -10,6 +10,7 @@ use ContainerRTFgIzf\getKnpPaginatorService;
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -55,6 +56,8 @@ class PostsController extends AbstractController
 
     /**
      * @Route ("/posts/{slug}", name="app_post")
+     * @param $slug
+     * @return Response
      */
     public function showPost($slug)
     {
@@ -81,6 +84,36 @@ class PostsController extends AbstractController
         $this->postService->createPost($data);
 
         return new Response("Created object");
+    }
+
+    /**
+     * @Route ("/disable-post/{id}", name="app_disable_post")
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function disablePost(int $id){
+        $this->postService->disablePost($id);
+        return new RedirectResponse("/");
+    }
+
+    /**
+     * @Route ("/enable-post/{id}", name="app_enable_post")
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function enablePost(int $id){
+        $this->postService->enablePost($id);
+        return new RedirectResponse("/");
+    }
+
+    /**
+     * @Route ("/delete-post/{id}", name="app_delete_post")
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function deletePost(int $id){
+        $this->postService->deletePost($id);
+        return new RedirectResponse("/");
     }
 
 }

@@ -51,10 +51,15 @@ class Post
     private $tags;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Admin")
-     * @ORM\JoinColumn(name="admin_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $admin;
+    private $user;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visible;
 
     public function __construct()
     {
@@ -138,7 +143,6 @@ class Post
      */
     public function getTags(): Collection
     {
-
         return $this->tags;
     }
 
@@ -161,16 +165,28 @@ class Post
     /**
      * @return mixed
      */
-    public function getAdmin()
+    public function getUser()
     {
-        return $this->admin;
+        return $this->user;
     }
 
     /**
-     * @param mixed $admin
+     * @param mixed $user
      */
-    public function setAdmin($admin): void
+    public function setUser($user): void
     {
-        $this->admin = $admin;
+        $this->user = $user;
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(bool $visible): self
+    {
+        $this->visible = $visible;
+
+        return $this;
     }
 }
