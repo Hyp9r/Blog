@@ -1,26 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    <!-- General CSS Files -->
-    <link rel="stylesheet" href="{{ asset('dist/modules/bootstrap/dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('dist/modules/@fortawesome/fontawesome-free/css/all.min.css') }}">
+{% extends 'base.html.twig' %}
 
-    <!-- Plugins -->
-    <link rel="stylesheet" href="{{ asset('dist/modules/bootstrap-social/bootstrap-social.css') }}">
+{% block title %}Login page{% endblock %}
 
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="{{ asset('dist/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('dist/css/components.css') }}">
-
-    {% block stylesheets %}{% endblock %}
-</head>
-<body class="sidebar-mini">
-
-<div id="app">
-
+{% block content %}
+<div class="main-content">
     <section class="section">
         <div class="container mt-5">
             <div class="row">
@@ -114,22 +97,6 @@
             </div>
         </div>
     </section>
-
-
 </div>
 
-{% block body %}{% endblock %}
-{% block javascripts %}{% endblock %}
-
-<script src="{{ asset('dist/modules/jquery/dist/jquery.js') }}"></script>
-<script src="{{ asset('dist/modules/popper/dist/popper.js') }}"></script>
-<script src="{{ asset('dist/modules/tooltip/dist/tooltip.js') }}"></script>
-<script src="{{ asset('dist/modules/bootstrap/dist/js/bootstrap.js') }}"></script>
-<script src="{{ asset('dist/modules/nicescroll/dist/jquery.nicescroll.js') }}"></script>
-<script src="{{ asset('dist/modules/moment/min/moment.min.js') }}"></script>
-<script src="{{ asset('dist/js/stisla.js') }}"></script>
-
-<script src="{{ asset('dist/js/scripts.js') }}"></script>
-<script src="{{ asset('dist/js/custom.js') }}"></script>
-</body>
-</html>
+{% endblock %}

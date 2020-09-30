@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -63,8 +65,16 @@ class PostRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('post')->select('post')->orderBy('post.datePublished', 'DESC')->getQuery()->getResult();
     }
 
+    public function findAllVisible(){
+        return $this->createQueryBuilder('post')->select('post')->where('post.visible = 1')->orderBy('post.datePublished', 'DESC')->getQuery()->getResult();
+    }
+
     public function findOneBySlug($slug): Post{
-        return $this->createQueryBuilder('post')->select('post')
-            ->where('post.slug = :slug')->setParameter('slug', $slug)->getQuery()->getSingleResult();
+        try {
+            return $this->createQueryBuilder('post')->select('post')
+                ->where('post.slug = :slug')->setParameter('slug', $slug)->getQuery()->getSingleResult();
+        } catch (NoResultException $e) {
+        } catch (NonUniqueResultException $e) {
+        }
     }
 }

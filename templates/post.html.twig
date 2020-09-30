@@ -1,38 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Post!{% endblock %}</title>
-    <!-- General CSS Files -->
-    <link rel="stylesheet" href="{{ asset('dist/modules/bootstrap/dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('dist/modules/@fortawesome/fontawesome-free/css/all.min.css') }}">
+{% extends 'base.html.twig' %}
 
-    <!-- Plugins -->
-    <link rel="stylesheet" href="{{ asset('dist/modules/bootstrap-social/bootstrap-social.css') }}">
-    <link rel="stylesheet" href="{{ asset('dist/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('dist/css/components.css') }}">
-    {% block stylesheets %}{% endblock %}
-</head>
-<body>
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.text }}</p>
-    <p>{{ post.datePublished|date("m/d/Y")  }}</p>
-    {% for tag in tags %}
-        {% if tag.id == 1 %}
-            <a href="#" class="badge badge-success">{{ tag.title }}</a>
-        {% elseif tag.id == 2 %}
-            <a href="#" class="badge badge-primary">{{ tag.title }}</a>
-        {% elseif tag.id == 3 %}
-            <a href="#" class="badge badge-info">{{ tag.title }}</a>
-        {% elseif tag.id == 4 %}
-            <a href="#" class="badge badge-dark">{{ tag.title }}</a>
-        {% elseif tag.id == 5 %}
-            <a href="#" class="badge badge-danger">{{ tag.title }}</a>
-        {% elseif tag.id == 6 %}
-            <a href="#" class="badge badge-warning">{{ tag.title }}</a>
-        {% endif %}
-    {% endfor %}
-{% block body %}{% endblock %}
-{% block javascripts %}{% endblock %}
-</body>
-</html>
+{% block title %}Post ~ {{ post.title }}{% endblock %}
+
+{% block content %}
+    <div class="main-content">
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Post details</h2>
+            </div>
+            <div class="section-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>{{ post.title }} post details</h4>
+                            </div>
+                            <div class="card-body">
+                                <p>{{ post.text }}</p>
+                                <p>{{ post.datePublished|date("m/d/Y") }}</p>
+                                {% for tag in tags %}
+                                    {% if tag.id == 1 %}
+                                        <a href="#" class="badge badge-success">{{ tag.title }}</a>
+                                    {% elseif tag.id == 2 %}
+                                        <a href="#" class="badge badge-primary">{{ tag.title }}</a>
+                                    {% elseif tag.id == 3 %}
+                                        <a href="#" class="badge badge-info">{{ tag.title }}</a>
+                                    {% elseif tag.id == 4 %}
+                                        <a href="#" class="badge badge-dark">{{ tag.title }}</a>
+                                    {% elseif tag.id == 5 %}
+                                        <a href="#" class="badge badge-danger">{{ tag.title }}</a>
+                                    {% elseif tag.id == 6 %}
+                                        <a href="#" class="badge badge-warning">{{ tag.title }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+{% endblock %}

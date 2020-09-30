@@ -46,19 +46,33 @@ class  PostService
         $post->setTitle($data['title']);
         $post->setText($data['text']);
         $post->setDatePublished($data['date']);
-        $post->setCounter(data['counter']);
         $post->setSlug(data['slug']);
+        $post->setCounter(data['counter']);
+        $post->setUser($data['user']);
+        $post->setVisible(true);
 
-        $phptag = $this->tagRepository->findOneBy(['title' => 'PHP']);
-        $dbtag = $this->tagRepository->findOneBy(['title' => 'Databases']);
-        $post->setTags([$phptag, $dbtag]);
+//        $post->setTags([$phptag, $dbtag]);
 
         $this->entityManager->persist($post);
         $this->entityManager->flush();
     }
 
+    public function new(Post $post){
+        $this->entityManager->persist($post);
+        $this->entityManager->flush();
+    }
+
+    public function updatePost(Post $post){
+        $this->entityManager->persist($post);
+        $this->entityManager->flush();;
+    }
+
     public function getPosts(){
         return $this->postRepository->findAllFromLatestDate();
+    }
+
+    public function getPost(int $id){
+        return $this->postRepository->find($id);
     }
 
     public function disablePost(int $id){
@@ -70,6 +84,12 @@ class  PostService
     public function enablePost(int $id){
         $post = $this->postRepository->find($id);
         $post->setVisible(true);
+        $this->entityManager->flush();
+    }
+
+    public function deletePost(int $id){
+        $post = $this->postRepository->find($id);
+        $this->entityManager->remove($post);
         $this->entityManager->flush();
     }
 
