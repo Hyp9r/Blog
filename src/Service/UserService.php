@@ -62,4 +62,8 @@ class UserService
         $this->entityManager->flush();
     }
 
+    public function search($data){
+        return $this->userRepository->search($data);
+    }
+
 }

@@ -39,6 +39,16 @@ class User implements UserInterface
      */
     private $displayName;
 
+    /**
+     * @ORM\OneToMany (targetEntity=Comment::class, mappedBy="user")
+     */
+    private $comments;
+
+    /**
+     * @ORM\ManyToMany (targetEntity="App\Entity\User", )
+     */
+    private $myFollowings;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +130,18 @@ class User implements UserInterface
     public function setDisplayName(string $displayName): self
     {
         $this->displayName = $displayName;
+
+        return $this;
+    }
+
+    public function getComments(): ?Comment
+    {
+        return $this->comments;
+    }
+
+    public function setComments(?Comment $comments): self
+    {
+        $this->comments = $comments;
 
         return $this;
     }

@@ -61,15 +61,22 @@ class PostRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    public function findAllFromLatestDate(){
-        return $this->createQueryBuilder('post')->select('post')->orderBy('post.datePublished', 'DESC')->getQuery()->getResult();
+    public function findAllFromLatestDate()
+    {
+        return $this->createQueryBuilder('post')->select('post')->orderBy('post.datePublished', 'DESC')->getQuery(
+        )->getResult();
     }
 
-    public function findAllVisible(){
-        return $this->createQueryBuilder('post')->select('post')->where('post.visible = 1')->orderBy('post.datePublished', 'DESC')->getQuery()->getResult();
+    public function findAllVisible()
+    {
+        return $this->createQueryBuilder('post')->select('post')->where('post.visible = 1')->orderBy(
+            'post.datePublished',
+            'DESC'
+        )->getQuery()->getResult();
     }
 
-    public function findOneBySlug($slug): Post{
+    public function findOneBySlug($slug): Post
+    {
         try {
             return $this->createQueryBuilder('post')->select('post')
                 ->where('post.slug = :slug')->setParameter('slug', $slug)->getQuery()->getSingleResult();
@@ -77,4 +84,19 @@ class PostRepository extends ServiceEntityRepository
         } catch (NonUniqueResultException $e) {
         }
     }
+
+    public function search($string)
+    {
+        $qb = $this->createQueryBuilder('post');
+        $qb->select('post')
+            ->where($qb->expr()->like('post.slug', ':string'))
+            ->orWhere($qb->expr()->like('post.title', ':string'))
+            ->orWhere($qb->expr()->like('post.text', ':string'))
+            ->setParameter(
+                'string',
+                '%' . $string . '%'
+            );
+        return $qb->getQuery()->getResult();
+    }
+
 }

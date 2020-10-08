@@ -71,8 +71,14 @@ class  PostService
         return $this->postRepository->findAllFromLatestDate();
     }
 
-    public function getPost(int $id){
+    public function getPostById(int $id){
         return $this->postRepository->find($id);
+    }
+
+    public function getPostBySlug($slug){
+        $this->postRepository->incrementViewCount($this->postRepository->findOneBySlug($slug));
+        $this->entityManager->flush();
+        return $this->postRepository->findOneBySlug($slug);
     }
 
     public function disablePost(int $id){
@@ -91,6 +97,11 @@ class  PostService
         $post = $this->postRepository->find($id);
         $this->entityManager->remove($post);
         $this->entityManager->flush();
+    }
+
+    public function search(string $string){
+        $posts = $this->postRepository->search($string);
+        return $posts;
     }
 
 }

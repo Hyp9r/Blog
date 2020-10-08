@@ -10,12 +10,12 @@
             </div>
             <div class="section-body">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4>{{ post.title }} post details</h4>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body happy-outline">
                                 <p>{{ post.text }}</p>
                                 <p>{{ post.datePublished|date("m/d/Y") }}</p>
                                 {% for tag in tags %}
@@ -33,6 +33,24 @@
                                         <a href="#" class="badge badge-warning">{{ tag.title }}</a>
                                     {% endif %}
                                 {% endfor %}
+                                <div class="card border" style="margin-top: 50px;">
+                                    <div class="card-header">
+                                        <h4>Comments</h4>
+                                    </div>
+                                    <div class="card-body bg-whitesmoke">
+                                        {% for comment in post.comments %}
+                                        <div class="form-group" style="padding-top: 10px; padding-left: 20px;">
+                                            <a href="#" class="fa-primary"><strong>{{ comment.user.displayName }}</strong></a>
+                                            <p style="display:inline; font-size: 13px;"> • posted {{ comment.datePublished | date("d-m-Y H:i:s") }}</p>
+                                            <p style="color: black; font-size: 16px">{{ comment.text }}</p>
+                                            <a href="{{ path('app_upvote_post', {'comment_id': comment.id, 'slug': post.slug}) }}" style="color:#7f8c8d; margin-right: 4px;" title="Vote up"><i class="fas fa-angle-up"></i></a>
+                                            <p style="display:inline;"><strong>|</strong></p>
+                                            <a href="{{ path('app_downvote_post', {'comment_id': comment.id, 'slug': post.slug}) }}" style="color:#7f8c8d;" title="Vote down"><i class="fas fa-angle-down"></i></a>
+                                        </div>
+                                        {% endfor %}
+                                        {{ form(form) }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
