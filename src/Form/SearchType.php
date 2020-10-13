@@ -21,7 +21,8 @@ class SearchType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Search',
                     'aria-label' => 'Search',
-                    'data-width' => 250
+                    'data-width' => 250,
+                    'autocomplete' => 'off'
                 )
             ]
         )->add(

@@ -9,6 +9,7 @@ use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Repository\TagRepository;
 use App\Service\CommentService;
+use App\Service\HistoryService;
 use App\Service\PostService;
 use App\Service\UserService;
 use ContainerRTFgIzf\getKnpPaginatorService;
@@ -51,21 +52,24 @@ class PostsController extends BaseController
      * @param Security $security
      * @param CommentService $commentService
      * @param UserService $userService
-     * @param RequestStack $request
+     * @param RequestStack $requestStack
+     * @param HistoryService $historyService
      */
     public function __construct(
         PostService $postService,
         Security $security,
         CommentService $commentService,
         UserService $userService,
-        RequestStack $requestStack
+        RequestStack $requestStack,
+        HistoryService $historyService
     ) {
         $this->postService = $postService;
         $this->security = $security;
         $this->commentService = $commentService;
         $this->userService = $userService;
         $this->request = $requestStack->getCurrentRequest();
-        parent::__construct($this->request, $postService, $userService);
+        $this->historyService = $historyService;
+        parent::__construct($this->request, $postService, $userService, $historyService);
     }
 
     /**

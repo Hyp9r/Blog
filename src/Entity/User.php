@@ -56,6 +56,11 @@ class User implements UserInterface
      */
     private $followingMe;
 
+    /**
+     * @ORM\OneToMany(targetEntity=History::class, mappedBy="user")
+     */
+    private $history;
+
     public function __construct()
     {
         $this->following = new ArrayCollection();
@@ -164,5 +169,17 @@ class User implements UserInterface
 
     public function getFollowings(){
         return $this->following;
+    }
+
+    public function getHistory(): ?History
+    {
+        return $this->history;
+    }
+
+    public function setHistory(?History $history): self
+    {
+        $this->history = $history;
+
+        return $this;
     }
 }

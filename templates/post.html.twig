@@ -48,7 +48,9 @@
                                             <a href="{{ path('app_downvote_post', {'comment_id': comment.id, 'slug': post.slug}) }}" style="color:#7f8c8d;" title="Vote down"><i class="fas fa-angle-down"></i></a>
                                         </div>
                                         {% endfor %}
-                                        {{ form(form) }}
+                                        {% if app.user %}
+                                            {{ form(form) }}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

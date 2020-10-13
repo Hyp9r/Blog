@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Service\HistoryService;
 use App\Service\PostService;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,14 +24,21 @@ class SearchController extends AbstractController
     protected $userService;
 
     /**
+     * @var HistoryService
+     */
+    protected $historyService;
+
+    /**
      * SearchController constructor.
      * @param PostService $postService
      * @param UserService $userService
+     * @param HistoryService $historyService
      */
-    public function __construct(PostService $postService, UserService $userService)
+    public function __construct(PostService $postService, UserService $userService, HistoryService $historyService)
     {
         $this->postService = $postService;
         $this->userService = $userService;
+        $this->historyService = $historyService;
     }
 
     /**
@@ -42,7 +50,19 @@ class SearchController extends AbstractController
     {
         $data = $request->query->get('search');
         $posts = $this->postService->search($data);
+        $searchTerm = [
+            'user' => $this->getUser(),
+            'search' => $data
+        ];
+        dd(111);
+        addToUserHistory($searchTerm);
+        dd(123);
         return $this->render('search.html.twig', ['posts' => $posts]);
+    }
+
+    private function addToUserHistory($data){
+        dd(123);
+        $this->historyService->addToUserHistory($data);
     }
 
 }

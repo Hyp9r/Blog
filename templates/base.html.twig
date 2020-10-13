@@ -26,18 +26,14 @@
                             <div class="search-header">
                                 Histories
                             </div>
+                            {% set counter = 0 %}
+                            {% for history in histories %}
                             <div class="search-item">
-                                <a href="#">How to hack NASA using CSS</a>
+                                <a href="#" onClick="copyDataToInputTag({{ counter }})">{{ history.search }}</a>
                                 <a href="#" class="search-close"><i class="fas fa-times"></i></a>
                             </div>
-                            <div class="search-item">
-                                <a href="#">Kodinger.com</a>
-                                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">#Stisla</a>
-                                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                            </div>
+                                {% set counter = counter + 1 %}
+                            {% endfor %}
                             <div class="search-header">
                                 Result
                             </div>
