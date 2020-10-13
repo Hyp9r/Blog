@@ -66,4 +66,8 @@ class UserService
         return $this->userRepository->search($data);
     }
 
+    public function followUser($user){
+        
+    }
+
 }

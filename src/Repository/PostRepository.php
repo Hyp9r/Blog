@@ -3,9 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -85,8 +88,35 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-    public function search($string)
+    public function searchPostsByUser($string)
     {
+        $sql = "SELECT post.title, post.slug, post.text, post.id, post.user_id, user.id,
+    user.display_name FROM post LEFT JOIN user ON post.user_id = user.id WHERE user.display_name LIKE '%$string%'";
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        try {
+            $stmt->execute();
+        } catch (DBALException $e) {
+        }
+        return $stmt->fetchAll();
+    }
+
+    public function searchPostsByUserNew($string){
+        $qb = $this->createQueryBuilder('p');
+        $qb
+            ->select('p', 'u')
+            ->leftJoin('p.user', 'u')
+            ->where($qb->expr()->like('u.displayName', ':displayName'))
+            ->setParameter(
+                'displayName',
+                '%' . $string . '%'
+            );
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+    public function searchPostsByKeyword($string){
         $qb = $this->createQueryBuilder('post');
         $qb->select('post')
             ->where($qb->expr()->like('post.slug', ':string'))

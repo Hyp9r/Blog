@@ -99,9 +99,14 @@ class  PostService
         $this->entityManager->flush();
     }
 
-    public function search(string $string){
-        $posts = $this->postRepository->search($string);
-        return $posts;
+    public function searchPostsByKeyword(string $string){
+        return $this->postRepository->searchPostsByKeyword($string);
+    }
+
+    public function searchPostsByUser(string $string){
+//        return $this->postRepository->searchPostsByUser($string);
+        return $this->postRepository->searchPostsByUserNew($string);
+
     }
 
 }

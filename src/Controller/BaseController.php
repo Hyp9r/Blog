@@ -52,10 +52,11 @@ abstract class BaseController extends AbstractController
         if($searchForm->isSubmitted() && $searchForm->isValid()){
 
             $data = $this->request->get('search')['text'];
-            $posts = $this->postService->search($data);
+            $posts = $this->postService->searchPostsByKeyword($data);
+            $postsByUser = $this->postService->searchPostsByUser($data);
             $users = $this->userService->search($data);
             if(!empty($posts) || !empty($users)){
-                return parent::render('search.html.twig', ['posts' => $posts, 'users' => $users, 'searchForm' => $searchForm->createView()]);
+                return parent::render('search.html.twig', ['posts' => $posts, 'postsByUser' => $postsByUser, 'users' => $users, 'searchForm' => $searchForm->createView()]);
             }
         }
         $parameters = array_merge($parameters, ['searchForm' => $searchForm->createView()]);
