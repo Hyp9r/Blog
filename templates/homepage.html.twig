@@ -1,48 +1,88 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-        <!-- Main Content -->
-        <div class="main-content">
+    <!-- Main Content -->
+        <div class="main-content mx-auto">
             <section class="section">
                 <div class="section-header">
-                    <h1>Blog posts</h1>
+                    <h1>Homepage</h1>
                 </div>
                 <div class="section-body">
-                    {% for post in posts %}
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>{{ post.title }}</h4>
-                            </div>
-                            <div class="card-body">
-                                <p>
-                                    {{ post.text }}
-                                </p>
-                                <p>{{ post.datePublished|date("m/d/Y")}}</p>
-                                <p>{{ 'Created by ' ~ post.user.displayName }}</p>
-                            </div>
-                            <div class="card-footer bg-whitesmoke">
-                                <a class="btn btn-outline-info" href="{{ '/posts/' ~ post.slug }}" role="button">Details</a>
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    {% if post.visible %}
-                                        <a class="btn btn-warning" href="{{ '/disable-post/' ~ post.id }}" role="button">Disable post</a>
+                    <h2 class="section-title">Blog posts</h2>
+                    {% set counter = 1 %}
+                    <div class="row">
+                    {% for post in paginatedPosts %}
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <article class="article article-style-c">
+                                <div class="article-header">
+                                    {% if counter < 10 %}
+                                        <div class="article-image" data-background="{{ asset('dist/img/news/img0' ~ counter ~ '.jpg') }}"></div>
                                     {% else %}
-                                        <a class="btn btn-success" href="{{ '/enable-post/' ~ post.id }}" role="button">Enable post</a>
+                                        <div class="article-image" data-background="{{ asset('dist/img/news/img0' ~ counter ~ '.jpg') }}"></div>
                                     {% endif %}
-
-                                    <a class="btn btn-danger" href="{{ '/delete-post/' ~ post.id }}" role="button">Delete post</a>
-
-                                    <a class="btn btn-primary" href="{{ '/update-post/' ~ post.id }}" role="button">Update post</a>
-
-                                    <p>{{ 'View count: ' ~ post.counter }}</p>
-
-                                {% endif %}
-                            </div>
+                                </div>
+                                <div class="article-details">
+                                    {% set difference = date().diff(date(post.datePublished)) %}
+                                    {% set leftDays = difference.days %}
+                                    {% if leftDays == 1 %}
+                                        <div class="article-category"><a href="#">News</a> <div class="bullet"></div> <a href="#">{{ leftDays }}day</a></div>
+                                    {% else %}
+                                        <div class="article-category"><a href="#">News</a> <div class="bullet"></div> <a href="#">{{ leftDays }}days</a></div>
+                                    {% endif %}
+                                    <div class="article-title">
+                                        <h2><a href="/posts/{{ post.slug }}">{{ post.title }}</a></h2>
+                                    </div>
+                                    <p></p>
+                                    <div class="article-user">
+                                        <img alt="image" src="{{ asset('dist/img/avatar/avatar-1.png') }}">
+                                        <div class="article-user-details">
+                                            <div class="user-detail-name">
+                                                <a href="#">{{ post.user.displayName }}</a>
+                                            </div>
+                                            <div class="text-job">WEB DEVELOPER</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
                         </div>
+                        {% set counter = counter + 1 %}
                     {% endfor %}
+                    </div>
+{#                    {% for post in posts %}#}
+{#                        <div class="card">#}
+{#                            <div class="card-header">#}
+{#                                <h4>{{ post.title }}</h4>#}
+{#                            </div>#}
+{#                            <div class="card-body">#}
+{#                                <p>#}
+{#                                    {{ post.text }}#}
+{#                                </p>#}
+{#                                <p>{{ post.datePublished|date("m/d/Y")}}</p>#}
+{#                                <p>{{ 'Created by ' ~ post.user.displayName }}</p>#}
+{#                            </div>#}
+{#                            <div class="card-footer bg-whitesmoke">#}
+{#                                <a class="btn btn-outline-info" href="{{ '/posts/' ~ post.slug }}" role="button">Details</a>#}
+{#                                {% if is_granted('ROLE_ADMIN') %}#}
+{#                                    {% if post.visible %}#}
+{#                                        <a class="btn btn-warning" href="{{ '/disable-post/' ~ post.id }}" role="button">Disable post</a>#}
+{#                                    {% else %}#}
+{#                                        <a class="btn btn-success" href="{{ '/enable-post/' ~ post.id }}" role="button">Enable post</a>#}
+{#                                    {% endif %}#}
+
+{#                                    <a class="btn btn-danger" href="{{ '/delete-post/' ~ post.id }}" role="button">Delete post</a>#}
+
+{#                                    <a class="btn btn-primary" href="{{ '/update-post/' ~ post.id }}" role="button">Update post</a>#}
+
+{#                                    <p>{{ 'View count: ' ~ post.counter }}</p>#}
+
+{#                                {% endif %}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
                 </div>
 
                 <div class="nav-item">
-                    {{ knp_pagination_render(posts) }}
+                    {{ knp_pagination_render(paginatedPosts) }}
                 </div>
 
             </section>

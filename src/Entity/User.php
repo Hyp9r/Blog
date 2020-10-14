@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -39,6 +40,32 @@ class User implements UserInterface
      */
     private $displayName;
 
+    /**
+     * @ORM\OneToMany (targetEntity=Comment::class, mappedBy="user")
+     */
+    private $comments;
+
+    /**
+     * @ORM\ManyToMany (targetEntity="App\Entity\User", mappedBy="followers")
+     */
+    private $following;
+
+    /**
+     * @ORM\ManyToMany (targetEntity="App\Entity\User", inversedBy="following")
+     * @ORM\JoinTable(name="followers", joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}, inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")})
+     */
+    private $followingMe;
+
+    /**
+     * @ORM\OneToMany(targetEntity=History::class, mappedBy="user")
+     */
+    private $history;
+
+    public function __construct()
+    {
+        $this->following = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,7 +78,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return (string)$this->username;
     }
 
     public function setUsername(string $username): self
@@ -85,7 +112,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -120,6 +147,38 @@ class User implements UserInterface
     public function setDisplayName(string $displayName): self
     {
         $this->displayName = $displayName;
+
+        return $this;
+    }
+
+    public function getComments(): ?Comment
+    {
+        return $this->comments;
+    }
+
+    public function setComments(?Comment $comments): self
+    {
+        $this->comments = $comments;
+
+        return $this;
+    }
+
+    public function setFollowing(User $user){
+        $this->getFollowings()->add($user);
+    }
+
+    public function getFollowings(){
+        return $this->following;
+    }
+
+    public function getHistory(): ?History
+    {
+        return $this->history;
+    }
+
+    public function setHistory(?History $history): self
+    {
+        $this->history = $history;
 
         return $this;
     }

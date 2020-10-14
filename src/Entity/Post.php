@@ -61,9 +61,15 @@ class Post
      */
     private $visible;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="post")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,6 +192,21 @@ class Post
     public function setVisible(bool $visible): self
     {
         $this->visible = $visible;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getComments(): ?Collection
+    {
+        return $this->comments;
+    }
+
+    public function setComments(?Comment $comments): self
+    {
+        $this->comments = $comments;
 
         return $this;
     }

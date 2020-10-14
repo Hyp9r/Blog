@@ -7,12 +7,78 @@
 
     <div id="app">
         <div class="main-wrapper">
-            <div class="navbar-bg"></div>
             <nav class="navbar navbar-expand-lg main-navbar">
-                <a href="{{ path('app_homepage') }}" class="navbar-brand sidebar-gone-hide">Home</a>
-                <form class="form-inline mr-auto">
 
-                </form>
+                <div class="form-inline mr-auto">
+                    <ul class="navbar-nav mr-3">
+                        <li><a href="{{ path('app_homepage') }}" class="navbar-brand sidebar-gone-hide"><img src="{{ asset('img/programing.png') }}" alt="Home icon"></a></li>
+{#                        <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>#}
+                    </ul>
+                    <div class="search-element">
+                        {#                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250">#}
+                        {#                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>#}
+                        {{ form_start(searchForm)}}
+                        {{ form_widget(searchForm.text) }}
+                        {{ form_widget(searchForm.submit) }}
+
+                        <div class="search-backdrop"></div>
+                        <div class="search-result">
+                            <div class="search-header">
+                                Histories
+                            </div>
+                            {% set counter = 0 %}
+                            {% for history in histories %}
+                            <div class="search-item">
+                                <a href="#" onClick="copyDataToInputTag({{ counter }})">{{ history.search }}</a>
+                                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
+                            </div>
+                                {% set counter = counter + 1 %}
+                            {% endfor %}
+                            <div class="search-header">
+                                Result
+                            </div>
+                            <div class="search-item">
+                                <a href="#">
+                                    <img class="mr-3 rounded" width="30" src="{{ asset('dist/img/products/product-3-50.png') }}" alt="product">
+                                    oPhone S9 Limited Edition
+                                </a>
+                            </div>
+                            <div class="search-item">
+                                <a href="#">
+                                    <img class="mr-3 rounded" width="30" src="{{ asset('dist/img/products/product-2-50.png') }}" alt="product">
+                                    Drone X2 New Gen-7
+                                </a>
+                            </div>
+                            <div class="search-item">
+                                <a href="#">
+                                    <img class="mr-3 rounded" width="30" src="{{ asset('dist/img/products/product-1-50.png') }}" alt="product">
+                                    Headphone Blitz
+                                </a>
+                            </div>
+                            <div class="search-header">
+                                Projects
+                            </div>
+                            <div class="search-item">
+                                <a href="#">
+                                    <div class="search-icon bg-danger text-white mr-3">
+                                        <i class="fas fa-code"></i>
+                                    </div>
+                                    Stisla Admin Template
+                                </a>
+                            </div>
+                            <div class="search-item">
+                                <a href="#">
+                                    <div class="search-icon bg-primary text-white mr-3">
+                                        <i class="fas fa-laptop"></i>
+                                    </div>
+                                    Create a new Homepage Design
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(searchForm) }}
+                </div>
+
                 {% if is_granted('ROLE_ADMIN') %}
                     <ul class="navbar-nav navbar-left">
                         <li><a href="{{ path('app_create_post') }}" class="nav-link nav-link-lg">Create post</a></li>
@@ -20,55 +86,58 @@
                 {% endif %}
 
                 <ul class="navbar-nav navbar-right">
-                    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
-                        <div class="dropdown-menu dropdown-list dropdown-menu-right">
-                            <div class="dropdown-header">Notifications
-                                <div class="float-right">
-                                    <a href="#">Mark All As Read</a>
+                    {% if app.user %}
+                        <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
+                            <div class="dropdown-menu dropdown-list dropdown-menu-right">
+                                <div class="dropdown-header">Notifications
+                                    <div class="float-right">
+                                        <a href="#">Mark All As Read</a>
+                                    </div>
+                                </div>
+                                <div class="dropdown-list-content">
+                                    <a href="#" class="dropdown-item dropdown-item-unread">
+                                        <img alt="image" src="{{ asset('dist/img/avatar/avatar-1.png') }}" class="rounded-circle dropdown-item-img">
+                                        <div class="dropdown-item-desc">
+                                            <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
+                                            <div class="time">10 Hours Ago</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="dropdown-item dropdown-item-unread">
+                                        <img alt="image" src="{{ asset('dist/img/avatar/avatar-2.png') }}" class="rounded-circle dropdown-item-img">
+                                        <div class="dropdown-item-desc">
+                                            <b>Ujang Maman</b> has moved task <b>Fix bug footer</b> to <b>Progress</b>
+                                            <div class="time">12 Hours Ago</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="dropdown-item dropdown-item-unread">
+                                        <img alt="image" src="{{ asset('dist/img/avatar/avatar-3.png') }}" class="rounded-circle dropdown-item-img">
+                                        <div class="dropdown-item-desc">
+                                            <b>Agung Ardiansyah</b> has moved task <b>Fix bug sidebar</b> to <b>Done</b>
+                                            <div class="time">12 Hours Ago</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <img alt="image" src="{{ asset('dist/img/avatar/avatar-4.png') }}" class="rounded-circle dropdown-item-img">
+                                        <div class="dropdown-item-desc">
+                                            <b>Ardian Rahardiansyah</b> has moved task <b>Fix bug navbar</b> to <b>Done</b>
+                                            <div class="time">16 Hours Ago</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <img alt="image" src="{{ asset('dist/img/avatar/avatar-5.png') }}" class="rounded-circle dropdown-item-img">
+                                        <div class="dropdown-item-desc">
+                                            <b>Alfa Zulkarnain</b> has moved task <b>Add logo</b> to <b>Done</b>
+                                            <div class="time">Yesterday</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="dropdown-footer text-center">
+                                    <a href="#">View All <i class="fas fa-chevron-right"></i></a>
                                 </div>
                             </div>
-                            <div class="dropdown-list-content">
-                                <a href="#" class="dropdown-item dropdown-item-unread">
-                                    <img alt="image" src="../dist/img/avatar/avatar-1.png" class="rounded-circle dropdown-item-img">
-                                    <div class="dropdown-item-desc">
-                                        <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
-                                        <div class="time">10 Hours Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item dropdown-item-unread">
-                                    <img alt="image" src="../dist/img/avatar/avatar-2.png" class="rounded-circle dropdown-item-img">
-                                    <div class="dropdown-item-desc">
-                                        <b>Ujang Maman</b> has moved task <b>Fix bug footer</b> to <b>Progress</b>
-                                        <div class="time">12 Hours Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item dropdown-item-unread">
-                                    <img alt="image" src="../dist/img/avatar/avatar-3.png" class="rounded-circle dropdown-item-img">
-                                    <div class="dropdown-item-desc">
-                                        <b>Agung Ardiansyah</b> has moved task <b>Fix bug sidebar</b> to <b>Done</b>
-                                        <div class="time">12 Hours Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <img alt="image" src="../dist/img/avatar/avatar-4.png" class="rounded-circle dropdown-item-img">
-                                    <div class="dropdown-item-desc">
-                                        <b>Ardian Rahardiansyah</b> has moved task <b>Fix bug navbar</b> to <b>Done</b>
-                                        <div class="time">16 Hours Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <img alt="image" src="../dist/img/avatar/avatar-5.png" class="rounded-circle dropdown-item-img">
-                                    <div class="dropdown-item-desc">
-                                        <b>Alfa Zulkarnain</b> has moved task <b>Add logo</b> to <b>Done</b>
-                                        <div class="time">Yesterday</div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="dropdown-footer text-center">
-                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                    {% endif %}
+
                     {% if app.user %}
                         {#                    User is logged in show details about user, etc...#}
                         <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
@@ -100,6 +169,7 @@
 
                 </ul>
             </nav>
+            <div class="navbar-bg"></div>
 
 
             {% block content %} {% endblock %}

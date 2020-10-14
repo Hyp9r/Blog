@@ -2,14 +2,22 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\PostService;
+use App\Service\UserService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AbstractController
+class SecurityController extends BaseController
 {
+
+    public function __construct(RequestStack $request, PostService $postService, UserService $userService)
+    {
+        parent::__construct($request->getCurrentRequest(), $postService, $userService);
+    }
+
     /**
      * @Route("/login", name="app_login")
      * @param Request $request
