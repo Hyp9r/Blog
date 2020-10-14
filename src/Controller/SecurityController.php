@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\HistoryService;
 use App\Service\PostService;
 use App\Service\UserService;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,9 +14,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends BaseController
 {
 
-    public function __construct(RequestStack $request, PostService $postService, UserService $userService)
+    public function __construct(RequestStack $request, PostService $postService, UserService $userService, HistoryService  $historyService)
     {
-        parent::__construct($request->getCurrentRequest(), $postService, $userService);
+        parent::__construct($request->getCurrentRequest(), $postService, $userService, $historyService);
     }
 
     /**
