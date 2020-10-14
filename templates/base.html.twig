@@ -11,7 +11,7 @@
 
                 <div class="form-inline mr-auto">
                     <ul class="navbar-nav mr-3">
-                        <li><a href="{{ path('app_homepage') }}" class="navbar-brand sidebar-gone-hide"><img src="{{ asset('img/programing.png') }}" alt="Home icon"></a></li>
+                        <li><a href="{{ path('app_homepage') }}" class="navbar-brand sidebar-gone-hide"><img src="{{ asset('assets/img/programing.png') }}" alt="Home icon"></a></li>
 {#                        <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>#}
                     </ul>
                     <div class="search-element">
@@ -141,7 +141,7 @@
                     {% if app.user %}
                         {#                    User is logged in show details about user, etc...#}
                         <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                                <img alt="image" src="../dist/img/avatar/avatar-1.png" width="30" class="rounded-circle mr-1">
+                                <img alt="image" src="{{ asset('dist/img/avatar/avatar-1.png') }}" width="30" class="rounded-circle mr-1">
                                 <div class="d-sm-none d-lg-inline-block">{{ app.user.displayName }}</div></a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-title">Logged in {{ ((date().timestamp - app.session.get('login-time')) / 60) | number_format}} min ago</div>
@@ -155,7 +155,7 @@
                                     <i class="fas fa-cog"></i> Settings
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="/logout" class="dropdown-item has-icon text-danger">
+                                <a href="{{ path('app_logout') }}" class="dropdown-item has-icon text-danger">
                                     <i class="fas fa-sign-out-alt"></i> Logout
                                 </a>
                             </div>
@@ -163,7 +163,7 @@
                     {% else %}
                         {#                    If user is not logged in show login button that redirects you to login page#}
                         <li>
-                            <a class="btn btn-success" href="/login" role="button">Login</a>
+                            <a class="btn btn-success" href="{{ path('app_login') }}" role="button">Login</a>
                         </li>
                     {% endif %}
 
