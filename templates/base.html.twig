@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
     <head>
         {% include 'header.html.twig' %}
     </head>
@@ -12,11 +12,8 @@
                 <div class="form-inline mr-auto">
                     <ul class="navbar-nav mr-3">
                         <li><a href="{{ path('app_homepage') }}" class="navbar-brand sidebar-gone-hide"><img src="{{ asset('assets/img/programing.png') }}" alt="Home icon"></a></li>
-{#                        <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>#}
                     </ul>
                     <div class="search-element">
-                        {#                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250">#}
-                        {#                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>#}
                         {{ form_start(searchForm)}}
                         {{ form_widget(searchForm.text) }}
                         {{ form_widget(searchForm.submit) }}
@@ -24,7 +21,7 @@
                         <div class="search-backdrop"></div>
                         <div class="search-result">
                             <div class="search-header">
-                                Histories
+                                Recent Histories
                             </div>
                             {% set counter = 0 %}
                             {% for history in histories %}
@@ -34,46 +31,35 @@
                             </div>
                                 {% set counter = counter + 1 %}
                             {% endfor %}
+
                             <div class="search-header">
-                                Result
+                                Most popular users
                             </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <img class="mr-3 rounded" width="30" src="{{ asset('dist/img/products/product-3-50.png') }}" alt="product">
-                                    oPhone S9 Limited Edition
-                                </a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <img class="mr-3 rounded" width="30" src="{{ asset('dist/img/products/product-2-50.png') }}" alt="product">
-                                    Drone X2 New Gen-7
-                                </a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <img class="mr-3 rounded" width="30" src="{{ asset('dist/img/products/product-1-50.png') }}" alt="product">
-                                    Headphone Blitz
-                                </a>
-                            </div>
+                            {% for user in popularUsers %}
+                                <div class="search-item">
+                                    <a href="#" onclick="copyDataToInputTag({{ counter }})">
+                                        <img class="mr-3 rounded" width="30" src="{{ asset('dist/img/avatar/avatar-1.png') }}" alt="product">
+                                        {{ user.displayName }}
+                                    </a>
+                                </div>
+                                {% set counter = counter + 1 %}
+                            {% endfor %}
+
                             <div class="search-header">
-                                Projects
+                                Most viewed posts
                             </div>
+
+                            {% for post in popularPosts %}
                             <div class="search-item">
-                                <a href="#">
+                                <a href="#" onclick="copyDataToInputTag({{ counter }})">
                                     <div class="search-icon bg-danger text-white mr-3">
                                         <i class="fas fa-code"></i>
                                     </div>
-                                    Stisla Admin Template
+                                    {{ post.title }}
                                 </a>
                             </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <div class="search-icon bg-primary text-white mr-3">
-                                        <i class="fas fa-laptop"></i>
-                                    </div>
-                                    Create a new Homepage Design
-                                </a>
-                            </div>
+                                {% set counter = counter + 1 %}
+                            {% endfor %}
                         </div>
                     </div>
                     {{ form_end(searchForm) }}
@@ -145,7 +131,7 @@
                                 <div class="d-sm-none d-lg-inline-block">{{ app.user.displayName }}</div></a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-title">Logged in {{ ((date().timestamp - app.session.get('login-time')) / 60) | number_format}} min ago</div>
-                                <a href="features-profile.html" class="dropdown-item has-icon">
+                                <a href='{{ path('app_profile', {'id': app.user.id}) }}' class="dropdown-item has-icon">
                                     <i class="far fa-user"></i> Profile
                                 </a>
                                 <a href="features-activities.html" class="dropdown-item has-icon">
@@ -163,7 +149,7 @@
                     {% else %}
                         {#                    If user is not logged in show login button that redirects you to login page#}
                         <li>
-                            <a class="btn btn-success" href="{{ path('app_login') }}" role="button">Login</a>
+                            <a class="btn btn-outline-white" href="{{ path('app_login') }}" role="button">Login</a>
                         </li>
                     {% endif %}
 
