@@ -66,6 +66,14 @@ class UserService
         return $this->userRepository->search($data);
     }
 
+    public function getPopularUsers(){
+        return $this->userRepository->getPopularUser();
+    }
+
+    public function getUser($id){
+        return $this->userRepository->find($id);
+    }
+
     public function followUser($user){
         
     }

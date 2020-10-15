@@ -64,6 +64,12 @@ class PostRepository extends ServiceEntityRepository
             ->execute();
     }
 
+    public function getMostViewedPosts()
+    {
+        return $this->createQueryBuilder('post')
+            ->select('post')->orderBy('post.counter', 'DESC')->setMaxResults(2)->getQuery()->getResult();
+    }
+
     public function findAllFromLatestDate()
     {
         return $this->createQueryBuilder('post')->select('post')->orderBy('post.datePublished', 'DESC')->getQuery(
@@ -101,7 +107,8 @@ class PostRepository extends ServiceEntityRepository
         return $stmt->fetchAll();
     }
 
-    public function searchPostsByUserNew($string){
+    public function searchPostsByUserNew($string)
+    {
         $qb = $this->createQueryBuilder('p');
         $qb
             ->select('p', 'u')
@@ -116,7 +123,8 @@ class PostRepository extends ServiceEntityRepository
     }
 
 
-    public function searchPostsByKeyword($string){
+    public function searchPostsByKeyword($string)
+    {
         $qb = $this->createQueryBuilder('post');
         $qb->select('post')
             ->where($qb->expr()->like('post.slug', ':string'))

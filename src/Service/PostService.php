@@ -104,9 +104,11 @@ class  PostService
     }
 
     public function searchPostsByUser(string $string){
-//        return $this->postRepository->searchPostsByUser($string);
         return $this->postRepository->searchPostsByUserNew($string);
+    }
 
+    public function getMostViewedPosts(){
+        return $this->postRepository->getMostViewedPosts();
     }
 
 }
