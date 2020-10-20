@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -54,7 +55,7 @@ class User implements UserInterface
      * @ORM\ManyToMany (targetEntity="App\Entity\User", inversedBy="following")
      * @ORM\JoinTable(name="followers", joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}, inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")})
      */
-    private $followingMe;
+    private $followers;
 
     /**
      * @ORM\OneToMany(targetEntity=History::class, mappedBy="user")
@@ -64,6 +65,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->following = new ArrayCollection();
+        $this->followers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -163,12 +165,19 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setFollowing(User $user){
+    public function setFollowing(User $user)
+    {
         $this->getFollowings()->add($user);
     }
 
-    public function getFollowings(){
+    public function getFollowings(): Collection
+    {
         return $this->following;
+    }
+
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
     }
 
     public function getHistory(): ?History
