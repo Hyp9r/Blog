@@ -5,23 +5,29 @@
     <div class="main-content mx-auto">
         <section class="section">
 
-            <div class="col-1 col-sm-4 col-lg-12">
+            <div class="col-12 col-sm-12 col-lg-12">
                 <div class="card profile-widget">
                     <div class="profile-widget-header">
                         <img alt="image" src="{{ asset('dist/img/avatar/avatar-1.png') }}" class="rounded-circle profile-widget-picture">
                         <div class="profile-widget-items">
                             <div class="profile-widget-item">
                                 <div class="profile-widget-item-label">Posts</div>
-                                <div class="profile-widget-item-value">187</div>
+                                <div class="profile-widget-item-value">{{ numberOfPosts }}</div>
                             </div>
                             <div class="profile-widget-item">
                                 <div class="profile-widget-item-label">Followers</div>
-                                <div class="profile-widget-item-value">6,8K</div>
+                                <div class="profile-widget-item-value"><a href="#" onclick="showFollowersDialog('Followers');">{{ numberOfFollowers }}</a></div>
                             </div>
                             <div class="profile-widget-item">
                                 <div class="profile-widget-item-label">Following</div>
-                                <div class="profile-widget-item-value">2,1K</div>
+                                <div class="profile-widget-item-value"><a href="#" onclick="showFollowersDialog('Following');">{{ numberOfFollowings }}</a></div>
                             </div>
+                            {% if app.user.id != user.id %}
+                                <div class="profile-widget-item">
+                                    <a href="#" class="btn btn-lg btn-primary mt-1 follow-btn" data-follow-action="follow({{ app.user.id }}, {{ user.id }})" data-unfollow-action="unfollow({{ app.user.id }}, {{ user.id }})">Follow</a>
+                                </div>
+                            {% endif %}
+
                         </div>
                     </div>
                     <div class="profile-widget-description pb-0">
@@ -32,7 +38,7 @@
                             consequat.</p>
                     </div>
                     <div class="card-footer text-center pt-0">
-                        <div class="font-weight-bold mb-2 text-small">Follow Hasan On</div>
+                        <div class="font-weight-bold mb-2 text-small">Follow {{ user.displayName }} On</div>
                         <a href="#" class="btn btn-social-icon mr-1 btn-facebook">
                             <i class="fab fa-facebook-f"></i>
                         </a>
@@ -46,6 +52,39 @@
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
+                </div>
+                <div class="row">
+                    {% for post in posts %}
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <article class="article article-style-c">
+                                <div class="article-header">
+                                        <div class="article-image" data-background="{{ asset('dist/img/news/img01.jpg') }}"></div>
+                                </div>
+                                <div class="article-details">
+                                    {% set difference = date().diff(date(post.datePublished)) %}
+                                    {% set leftDays = difference.days %}
+                                    {% if leftDays == 1 %}
+                                        <div class="article-category"><a href="#">News</a> <div class="bullet"></div> <a href="#">{{ leftDays }}day</a></div>
+                                    {% else %}
+                                        <div class="article-category"><a href="#">News</a> <div class="bullet"></div> <a href="#">{{ leftDays }}days</a></div>
+                                    {% endif %}
+                                    <div class="article-title">
+                                        <h2><a href="/posts/{{ post.slug }}">{{ post.title }}</a></h2>
+                                    </div>
+                                    <p></p>
+                                    <div class="article-user">
+                                        <img alt="image" src="{{ asset('dist/img/avatar/avatar-1.png') }}">
+                                        <div class="article-user-details">
+                                            <div class="user-detail-name">
+                                                <a href="#">{{ post.user.displayName }}</a>
+                                            </div>
+                                            <div class="text-job">WEB DEVELOPER</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
 
