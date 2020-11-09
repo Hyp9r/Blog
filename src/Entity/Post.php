@@ -111,6 +111,7 @@ class Post
 
     /**
      * @param mixed $datePublished
+     *
      * @return Post
      */
     public function setDatePublished($datePublished)
@@ -144,18 +145,11 @@ class Post
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getTags(): Collection
     {
         return $this->tags;
     }
 
-    /**
-     * @param ArrayCollection $tags
-     * @return Post
-     */
     public function setTags(ArrayCollection $tags): Post
     {
         $this->tags = $tags;

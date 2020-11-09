@@ -38,6 +38,11 @@ class Tag
         $this->posts = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +82,7 @@ class Tag
 
     /**
      * @param mixed $posts
+     *
      * @return Tag
      */
     public function setPosts($posts)
@@ -84,10 +90,5 @@ class Tag
         $this->posts = $posts;
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->getTitle();
     }
 }

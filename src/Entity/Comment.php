@@ -50,7 +50,6 @@ class Comment
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $datePublished;
-    
 
     public function __construct()
     {
@@ -74,7 +73,6 @@ class Comment
 
         return $this;
     }
-
 
     /**
      * @return User
@@ -183,9 +181,9 @@ class Comment
         return $this->datePublished;
     }
 
-
     /**
      * @param mixed $datePublished
+     *
      * @return $this
      */
     public function setDatePublished(\DateTimeInterface $datePublished): self

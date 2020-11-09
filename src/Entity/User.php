@@ -42,18 +42,19 @@ class User implements UserInterface
     private $displayName;
 
     /**
-     * @ORM\OneToMany (targetEntity=Comment::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
      */
     private $comments;
 
     /**
-     * @ORM\ManyToMany (targetEntity="App\Entity\User", mappedBy="followers")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="followers")
      */
     private $following;
 
     /**
-     * @ORM\ManyToMany (targetEntity="App\Entity\User", inversedBy="following")
-     * @ORM\JoinTable(name="followers", joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}, inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")})
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="following")
+     * @ORM\JoinTable(name="followers",
+     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}, inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")})
      */
     private $followers;
 
@@ -80,7 +81,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string)$this->username;
+        return (string) $this->username;
     }
 
     public function setUsername(string $username): self
@@ -114,7 +115,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string)$this->password;
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -165,9 +166,11 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setFollowing(User $user)
+    public function setFollowing(?User $user): self
     {
         $this->getFollowings()->add($user);
+
+        return $this;
     }
 
     public function getFollowings(): Collection
@@ -175,9 +178,32 @@ class User implements UserInterface
         return $this->following;
     }
 
+    public function setFollower(?User $user): self
+    {
+        $followers = $this->getFollowers();
+        $followers->add($user);
+        $this->setFollowers($followers);
+
+        return $this;
+    }
+
     public function getFollowers(): Collection
     {
         return $this->followers;
+    }
+
+    public function setFollowers(Collection $followers): void
+    {
+        $this->followers = $followers;
+    }
+
+    public function removeFollow(?User $user): self
+    {
+        $followers = $this->getFollowers();
+        $followers->removeElement($user);
+        $this->setFollowers($followers);
+
+        return $this;
     }
 
     public function getHistory(): ?History
