@@ -37,7 +37,7 @@
                                         <img alt="image" src="{{ asset('dist/img/avatar/avatar-1.png') }}">
                                         <div class="article-user-details">
                                             <div class="user-detail-name">
-                                                <a href="#">{{ post.user.displayName }}</a>
+                                                <a href="{{ path('app_profile', {id: post.user.id}) }}">{{ post.user.displayName }}</a>
                                             </div>
                                             <div class="text-job">WEB DEVELOPER</div>
                                         </div>

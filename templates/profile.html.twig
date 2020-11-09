@@ -16,16 +16,25 @@
                             </div>
                             <div class="profile-widget-item">
                                 <div class="profile-widget-item-label">Followers</div>
-                                <div class="profile-widget-item-value"><a href="#" onclick="showFollowersDialog('Followers');">{{ numberOfFollowers }}</a></div>
+                                <div class="profile-widget-item-value"><a href="#" id="numberOfFollowers" onclick="showFollowersDialog('Followers');">{{ numberOfFollowers }}</a></div>
                             </div>
                             <div class="profile-widget-item">
                                 <div class="profile-widget-item-label">Following</div>
                                 <div class="profile-widget-item-value"><a href="#" onclick="showFollowersDialog('Following');">{{ numberOfFollowings }}</a></div>
                             </div>
                             {% if app.user.id != user.id %}
-                                <div class="profile-widget-item">
-                                    <a href="#" class="btn btn-lg btn-primary mt-1 follow-btn" data-follow-action="follow({{ app.user.id }}, {{ user.id }})" data-unfollow-action="unfollow({{ app.user.id }}, {{ user.id }})">Follow</a>
-                                </div>
+                                {% if following == true %}
+                                    <div class="profile-widget-item">
+                                        <a href="#" id="unfollow" class="btn btn-lg btn-danger mt-1">Unfollow</a>
+                                    </div>
+                                {% else %}
+                                    <div class="profile-widget-item">
+                                        <a href="#" id="follow" class="btn btn-lg btn-primary mt-1">Follow</a>
+                                    </div>
+                                {% endif %}
+                                {#                                <div class="profile-widget-item">#}
+{#                                    <a href="#" id="follow" class="btn btn-lg btn-primary mt-1 follow-btn" data-follow-action="follow({{ user.id }})" data-unfollow-action="unfollow({{ user.id }})">Follow</a>#}
+{#                                </div>#}
                             {% endif %}
 
                         </div>
