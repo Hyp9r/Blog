@@ -3,12 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Post;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -92,6 +91,16 @@ class PostRepository extends ServiceEntityRepository
         } catch (NoResultException $e) {
         } catch (NonUniqueResultException $e) {
         }
+    }
+
+    public function getPostsFromUser($id)
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('p' , 'u')
+            ->leftJoin('p.user', 'u')
+            ->where($qb->expr()->like('u.id', ':id'))
+            ->setParameter('id', $id);
+        return $qb->getQuery()->getResult();
     }
 
     public function searchPostsByUser($string)

@@ -62,6 +62,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult();
     }
 
+    public function isFollowing(User $user)
+    {
+        //left join on followers join table
+        $qb = $this->createQueryBuilder('u');
+        return $qb->select('u', 'u.following')->getQuery()->getResult();
+    }
+
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

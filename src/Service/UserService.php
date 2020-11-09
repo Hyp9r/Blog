@@ -71,11 +71,31 @@ class UserService
     }
 
     public function getUser($id){
-        return $this->userRepository->find($id);
+        return $this->userRepository->findOneBy(array('id' => $id), );
     }
 
-    public function followUser($user){
-        
+    public function getPostsFromUser($id){
+        return $this->postRepository->getPostsFromUser($id);
+    }
+
+    public function followUser(User $user, User $targetUser){
+        $targetUser->setFollower($user);
+        $this->entityManager->persist($targetUser);
+        $this->entityManager->flush();
+    }
+
+    public function unFollowUser(User $user, User $targetUser){
+        $targetUser->removeFollow($user);
+        $this->entityManager->persist($targetUser);
+        $this->entityManager->flush();
+    }
+
+    public function getFollowers(User $user){
+        return $user->getFollowers();
+    }
+
+    public function getFollowings(User $user){
+        return $user->getFollowings();
     }
 
 }

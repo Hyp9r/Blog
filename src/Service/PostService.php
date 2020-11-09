@@ -111,4 +111,8 @@ class  PostService
         return $this->postRepository->getMostViewedPosts();
     }
 
+    public function getPostsFromUser($id){
+        return $this->postRepository->getPostsFromUser($id);
+    }
+
 }
