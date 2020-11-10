@@ -4,6 +4,9 @@
 .idea/
 workspace.xml
 
+.php_cs
+.php_cs.cache
+
 ###> symfony/framework-bundle ###
 .envgit
 /.env.local
