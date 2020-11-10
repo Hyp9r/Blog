@@ -1,0 +1,29 @@
+version: '3'
+services:
+    php_fpm:
+        build: .docker/php-fpm
+        depends_on:
+            - mariadb
+        volumes:
+            - ./:/var/www/html/blog
+            - ./var/log:/var/log
+        env_file:
+            - .env
+        entrypoint: [ "./bin/entrypoint.sh" ]
+        command: [ "php-fpm" ]
+    nginx:
+        build: .docker/nginx
+        depends_on:
+            - php_fpm
+            - mariadb
+        volumes:
+            - ./:/var/www/html/blog
+            - ./var/log:/var/log/nginx
+    mariadb:
+        image: mariadb:latest
+        env_file:
+            - .env
+        volumes:
+            - mariadb-blog:/var/lib/mysql
+volumes:
+    mariadb-blog:
