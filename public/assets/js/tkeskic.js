@@ -34,13 +34,13 @@ function unfollow(targetUser) {
     })
 }
 
-function updateFollowers(value){
+function updateFollowers(value) {
     let numberOfFollowers = $('#numberOfFollowers').text();
     $('#numberOfFollowers').text(parseInt(numberOfFollowers) + value);
 }
 
-function changeButtonState(isFollowing){
-    if(isFollowing){
+function changeButtonState(isFollowing) {
+    if (isFollowing) {
         $('#follow').removeClass('btn-primary');
         $('#follow').addClass('btn-danger');
         $('#follow').text('Unfollow');
@@ -49,10 +49,10 @@ function changeButtonState(isFollowing){
         $('#unfollow').off('click');
         $('#unfollow').click(function () {
             let location = window.location.href;
-            let targetUser = location.split("/profile/")[1].split("#")[0];
+            let targetUser = location.split('/profile/')[1].split('#')[0];
             unfollow(targetUser);
         });
-    }else{
+    } else {
         $('#unfollow').removeClass('btn-danger');
         $('#unfollow').addClass('btn-primary');
         $('#unfollow').text('Follow');
@@ -61,12 +61,11 @@ function changeButtonState(isFollowing){
         $('#unfollow').attr('id', 'follow');
         $('#follow').click(function () {
             let location = window.location.href;
-            let targetUser = location.split("/profile/")[1].split("#")[0];
+            let targetUser = location.split('/profile/')[1].split('#')[0];
             follow(targetUser);
         });
     }
 }
-
 
 function showFollowersDialog(string) {
     swal({
@@ -75,23 +74,23 @@ function showFollowersDialog(string) {
     })
 }
 
-$(document).ready(function (){
-    $('#follow').click(function (){
+$(document).ready(function () {
+    $('#follow').click(function () {
         let location = window.location.href;
-        let targetUser = location.split("/profile/")[1].split("#")[0];
+        let targetUser = location.split('/profile/')[1].split('#')[0];
         follow(targetUser);
     });
 
-    $('#unfollow').click(function (){
+    $('#unfollow').click(function () {
         let location = window.location.href;
-        let targetUser = location.split("/profile/")[1].split("#")[0];
+        let targetUser = location.split('/profile/')[1].split('#')[0];
         unfollow(targetUser);
     });
 
 });
 
 // $(document).ready(function () {
-//     document.getElementById('error').style.display = "none";
+//     document.getElementById('error').style.display = 'none';
 //     $('#movie_yearRelease').focusout(function(){
 //
 //         let movieTitle = document.getElementById('movie_title').value;
@@ -105,7 +104,7 @@ $(document).ready(function (){
 //                 'year' : movieYearRelease
 //             },
 //             success: function (response) {
-//                 error.style.display = "block";
+//                 error.style.display = 'block';
 //                 if(response === 'Movie already exists!'){
 //                     error.className = '';
 //                     error.classList.add('alert');
