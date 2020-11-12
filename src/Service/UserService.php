@@ -51,13 +51,9 @@ class UserService
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function createUser($data)
+    public function createUser(User $user)
     {
-        $user = new User();
-        $user->setUsername($data['username']);
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $data['password']));
-        $user->setDisplayName($data['displayName']);
-
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
